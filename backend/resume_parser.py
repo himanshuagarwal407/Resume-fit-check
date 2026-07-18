@@ -1,4 +1,4 @@
-import os
+import os, re
 import pdfplumber
 from docx import Document
 
@@ -30,11 +30,24 @@ def extract_resume_text(file_path: str) -> str:
     else:
         raise ValueError(f"Unsupported file type: {extension}")
 
+def normalize_text(text: str) -> str:
+    # Collapse 3+ newlines into just 2 (one blank line max between sections)
+    text = re.sub(r'\n{3,}', '\n\n', text)
+
+    # Strip leading/trailing whitespace from each line
+    lines = [line.strip() for line in text.split('\n')]
+    text = '\n'.join(lines)
+
+    # Strip leading/trailing whitespace from the whole text
+    return text.strip()
+
 if __name__ == "__main__":
     # Example usage
     file_path = "software-engineer-doc-resume-template.docx"
     extracted_text = extract_resume_text(file_path)
+    cleaned_text = normalize_text(extracted_text)
     print(f"Length of extracted text: {len(extracted_text)}")
+    print(f"Cleaned length: {len(cleaned_text)}")
     print("---START---")
-    print(extracted_text)
+    print(cleaned_text)
     print("---END---")
