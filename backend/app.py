@@ -41,16 +41,30 @@ def run_scan(resume_file, jd_text, progress=gr.Progress()):
         logger.error(f"Scoring error: {e}")
         return f"Scoring error: {e}"
 
+    exp = result["experience_match"]
+
     output = f"""## Match Score: {result['match_score']}/100
 
-**Matched Keywords:** {', '.join(result['matched_keywords'])}
+### Experience
+- **Required:** {exp['required_experience']}
+- **Candidate's Experience:** {exp['candidate_experience']}
+- **Meets Requirement:** {'✅ Yes' if exp['meets_requirement'] else '❌ No'}
+- {exp['reasoning']}
 
-**Missing Keywords:** {', '.join(result['missing_keywords'])}
+### Strong Matches (demonstrated with real usage)
+{', '.join(result['strong_matches']) if result['strong_matches'] else 'None'}
 
-**Formatting Warnings:**
+### Weak Matches (only listed, no demonstrated usage)
+{', '.join(result['weak_matches']) if result['weak_matches'] else 'None'}
+
+### Missing Keywords
+{', '.join(result['missing_keywords']) if result['missing_keywords'] else 'None'}
+
+### Formatting Warnings
 {chr(10).join('- ' + w for w in result['formatting_warnings']) if result['formatting_warnings'] else 'None'}
 
-**Summary:** {result['summary']}
+### Summary
+{result['summary']}
 """
     return output
 
