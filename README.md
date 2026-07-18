@@ -4,13 +4,20 @@ Part of the **JobPilot** project series — a multi-agent job search assistant.
 
 ## What this does
 Takes a resume and a job description, and returns:
-- An ATS match score
-- Matched keywords
+- An ATS match score (0–100)
+- Experience check (required vs. candidate's experience, pass/fail)
+- Strong matches — skills/keywords demonstrated with real usage
+- Weak matches — skills only listed, without demonstrated usage
 - Missing keywords / gaps
 - Formatting warnings that could hurt ATS parsing
+- A plain-language summary of overall fit
+
+## Screenshot
+
+![ResumeFitCheck screenshot](assets/screenshot.png)
 
 ## Status
-🚧 In development — Project 1 of 5 in the JobPilot series.
+🛠️ Core flow working — resume upload, JD paste, and match scoring are functional end-to-end. Project 1 of 5 in the JobPilot series.
 
 ## Tech Stack
 - **Backend:** Python, FastAPI
